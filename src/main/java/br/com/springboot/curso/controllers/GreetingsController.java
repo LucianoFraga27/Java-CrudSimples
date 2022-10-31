@@ -81,7 +81,15 @@ public class GreetingsController {
   
     }
     
-    
+    @GetMapping(value = "buscaruserid")
+    @ResponseBody 							 /*requestparam pega um parametro*/
+    public ResponseEntity<Usuario> buscaruserid (@RequestParam(name="iduser") Long iduser) {
+    	
+    	Usuario user = usuarioRepository.findById(iduser).get();
+    	
+    	return new ResponseEntity<Usuario>(user,HttpStatus.OK);
+  
+    }
     
     
     
