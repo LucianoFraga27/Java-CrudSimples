@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -92,7 +93,28 @@ public class GreetingsController {
     }
     
     
+    @PutMapping(value = "atualizar")
+    @ResponseBody /* descricao da resposta */ /*requestbody recebe os dados para salvar*/
+    public ResponseEntity<?> atualizar (@RequestBody Usuario usuario) {
+    	
+    	if(usuario.getId() == null) {
+    		return new ResponseEntity<String>("Id não foi informado",HttpStatus.OK);
+    	}
+    	
+    	Usuario user = usuarioRepository.saveAndFlush(usuario);
+    	return new ResponseEntity<Usuario>(user,HttpStatus.OK);
+  
+    }
     
     
+    @GetMapping(value = "buscarPorNome")
+    @ResponseBody 							 /*requestparam pega um parametro*/
+    public ResponseEntity<List<Usuario>> buscarPorNome (@RequestParam(name="name") String name) {
+    	
+    	List<Usuario> users = usuarioRepository.buscarPorNome(name.trim());
+    	
+    	return new ResponseEntity<List<Usuario>>(users,HttpStatus.OK);
+  
+    }
     
 }
